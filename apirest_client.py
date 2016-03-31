@@ -6,6 +6,7 @@ def get_data_doc_number(user, password, tipo_doc, numero_doc, format='json'):
         tipo_doc = 'dni' o 'ruc'
     '''
     url = 'http://py-devs.com:8888/api'
+    # url = 'http://localhost:8000/api'
     url = '%s/%s/%s' % (url, tipo_doc, str(numero_doc))
     res = {'error': True, 'message': None, 'data': {}}
     try:
@@ -18,8 +19,10 @@ def get_data_doc_number(user, password, tipo_doc, numero_doc, format='json'):
         res['error'] = False
         res['data'] = response.json()
     else:
-        res['message'] = response.json()['detail']
-
+        try:
+            res['message'] = response.json()['detail']
+        except Exception, e:
+            res['error'] = True
     return res
 
 
